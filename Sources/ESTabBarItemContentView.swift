@@ -25,6 +25,20 @@
 
 import UIKit
 
+extension UIDevice {
+    static func isIphoneX() -> Bool {
+        if UIDevice().userInterfaceIdiom == .phone {
+            switch UIScreen.main.nativeBounds.height {
+            case 2436:
+                return true
+            default:
+                return false
+            }
+        }
+        return false
+    }
+}
+
 open class ESTabBarItemContentView: UIView {
     
     // MARK: - PROPERTY SETTING
@@ -224,12 +238,18 @@ open class ESTabBarItemContentView: UIView {
                                               width: s,
                                               height: s)
             } else {
+                var titleLabelYOffset: CGFloat = 1.0
+                var imageViewYOffset: CGFloat = 6.0
+                if UIDevice.isIphoneX() {
+                    titleLabelYOffset = 28.0
+                    imageViewYOffset = 19.0
+                }
                 titleLabel.frame = CGRect.init(x: (w - titleLabel.bounds.size.width) / 2.0,
-                                               y: h - titleLabel.bounds.size.height - 1.0,
+                                               y: h - titleLabel.bounds.size.height - titleLabelYOffset,
                                                width: titleLabel.bounds.size.width,
                                                height: titleLabel.bounds.size.height)
                 imageView.frame = CGRect.init(x: (w - s) / 2.0,
-                                              y: (h - s) / 2.0 - 6.0,
+                                              y: (h - s) / 2.0 - imageViewYOffset,
                                               width: s,
                                               height: s)
             }
